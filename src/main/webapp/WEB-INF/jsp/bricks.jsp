@@ -6,8 +6,7 @@
 <head>
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="/webstore/resource/css/equal-height-columns.css">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
 <script src="/webstore/resource/js/brick.js"></script>
