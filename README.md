@@ -7,7 +7,7 @@ a simple webstore & some excersises
 *jstl data binding   
 *admin security by spring securiy   
 *cart system using angularjs with restful action  
-*custom exception example  
+*custom exception 
 *interceptor monitor control  
 *hibernate validator  
 *custom validator   
