@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+
+	<mvc:annotation-driven enable-matrix-variables="true"
+		validator="validator" />
+	<context:component-scan base-package="com.ericstudio.webstore" />
+	<context:property-placeholder location="classpath*:systemConfig.properties" />
+	
+
+	<!-- mvc 定義resource 位置 -->
+	<mvc:resources location="/resources/" mapping="/resource/**" />
+
+
+	<!-- 設定 InternalResourceViewResolver 的話，你只要傳回 "hello" 字串，InternalResourceViewResolver 
+		會自動根據 prefix 與 suffix 設定，得知目前實際上要以 "/hello.jsp" 來進行畫面回應，將來若想要改為其他回應技術，就只需要修改 
+		XML 檔案。 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 設定顯示字元 去使用message.properties 帶入 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<!-- 定義mutli file bean -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10240000" />
+	</bean>
+
+	<!-- 使用解析器去實踐資料多種呈現方式 ex.json xml -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="defaultViews">
+			<list>
+				<ref bean="jsonView" />
+				<ref bean="xmlView" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 透過MappingJacksonJsonView 實作json paser -->
+	<bean id="jsonView"
+		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+		<property name="prettyPrint" value="true" />
+	</bean>
+
+	<!-- 透過MarshallingView 實作xml paser -->
+	<bean id="xmlView"
+		class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<constructor-arg>
+			<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+				<property name="classesToBeBound">
+					<list>
+						<value>com.ericstudio.webstore.domain.Product</value>
+					</list>
+				</property>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<!-- interceptors 攔截器 類似aop 在進出method 執行功能 ex紀錄時間 -->
+	<mvc:interceptors>
+		<!-- method performance -->
+		<bean
+			class="com.ericstudio.webstore.interceptor.PerformanceMonitorInterceptor" />
+		<!-- localize language -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="language" />
+		</bean>
+		<!-- spect method minitor -->
+		<bean class="com.ericstudio.webstore.interceptor.AuditingInterceptor" />
+
+		<bean class="com.ericstudio.webstore.interceptor.PromoCodeInterceptor">
+			<property name="promoCode" value="OFF3R" />
+			<property name="errorRedirect" value="invalidPromoCode" />
+			<property name="offerRedirect" value="products" />
+		</bean>
+
+	</mvc:interceptors>
+
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="tw" />
+	</bean>
+
+	<!-- validation -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<bean id="productValidator" class="com.ericstudio.webstore.validator.ProductValidator">
+		<property name="springValidators">
+			<set>
+				<ref bean="unitsInStockValidator" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="unitsInStockValidator" class="com.ericstudio.webstore.validator.UnitsInStockValidator" />
+
+
+	<!-- spring ws -->
+	<bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory" />
+
+	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="contextPath" value="com.ericstudio.webstore.domain.brick.v2" />
+	</bean>
+
+<!-- 	<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate"> -->
+<!-- 		<constructor-arg ref="messageFactory" /> -->
+<!-- 		<property name="marshaller" ref="marshaller"></property> -->
+<!-- 		<property name="unmarshaller" ref="marshaller"></property> -->
+<!-- 		<property name="messageSender"> -->
+<!-- 			<bean -->
+<!-- 				class="org.springframework.ws.transport.http.HttpComponentsMessageSender" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="defaultUri" value="http://brickset.com/api/v2.asmx/login" /> -->
+<!-- 	</bean> -->
+
+</beans>
