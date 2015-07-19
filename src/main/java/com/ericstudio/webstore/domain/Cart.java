@@ -6,8 +6,17 @@ import java.util.Map;
 
 
 public class Cart {
+	/**
+	 * cart id 
+	 */
 	private String cartId;
+	/**
+	 * cartitems many items save in cart
+	 */
 	private Map<String, CartItem> cartItems;
+	/**
+	 * total price
+	 */
 	private BigDecimal grandTotal;
 
 	public Cart() {

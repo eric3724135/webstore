@@ -2,14 +2,35 @@ package com.ericstudio.webstore.domain;
 
 public class KaoBus {
 	
+	/**
+	 * ProviderID
+	 */
 	private String ProviderID;
+	/**
+	 * BusID
+	 */
 	private String BusID;
 	private String DutyStatus;
 	private String BusStatus;
+	/**
+	 * bus number
+	 */
 	private String RouteID;
+	/**
+	 * front or back
+	 */
 	private String GoBack;
+	/**
+	 * live Longitude
+	 */
 	private String Longitude;
+	/**
+	 * live Latitude
+	 */
 	private String Latitude;
+	/**
+	 * live bus speed 
+	 */
 	private String Speed;
 	private String Azimuth;
 	private String DataTime;

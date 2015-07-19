@@ -3,8 +3,17 @@ package com.ericstudio.webstore.domain;
 import java.math.BigDecimal;
 
 public class CartItem {
+	/**
+	 * product obj
+	 */
 	private Product product;
+	/**
+	 * units
+	 */
 	private int quantity;
+	/**
+	 * totalPrice with product price * quantity
+	 */
 	private BigDecimal totalPrice;
 
 	public CartItem() {

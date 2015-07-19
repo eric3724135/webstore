@@ -105,7 +105,7 @@ public class SetsParserHandler extends DefaultHandler {
 		case "userNotes":
 			sets.setUserNotes(content);
 			break;
-		case "acmDataCount":
+		case "ACMDataCount":
 			sets.setACMDataCount(Integer.valueOf(content));
 			break;
 		case "ownedByTotal":
@@ -114,16 +114,16 @@ public class SetsParserHandler extends DefaultHandler {
 		case "wantedByTotal":
 			sets.setWantedByTotal(Integer.valueOf(content));
 			break;
-		case "ukRetailPrice":
+		case "UKRetailPrice":
 			sets.setUKRetailPrice(content);
 			break;
-		case "usRetailPrice":
+		case "USRetailPrice":
 			sets.setUSRetailPrice(content);
 			break;
-		case "caRetailPrice":
+		case "CARetailPrice":
 			sets.setCARetailPrice(content);
 			break;
-		case "euRetailPrice":
+		case "EURetailPrice":
 			sets.setEURetailPrice(content);
 			break;
 		case "rating":
@@ -144,10 +144,10 @@ public class SetsParserHandler extends DefaultHandler {
 		case "additionalImageCount":
 			sets.setAdditionalImageCount(Integer.valueOf(content));
 			break;
-		case "ean":
+		case "EAN":
 			sets.setEAN(content);
 			break;
-		case "upc":
+		case "UPC":
 			sets.setUPC(content);
 			break;
 		case "description":

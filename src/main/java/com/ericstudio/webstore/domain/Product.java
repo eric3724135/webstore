@@ -2,6 +2,16 @@ package com.ericstudio.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -11,24 +21,66 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ericstudio.webstore.validator.ProductID;
 
+@Entity
+@Table(name = "product")
 @XmlRootElement
 public class Product {
-	@Pattern(regexp = "P[1-9]+", message = "{Pattern.Product.productId.validation}")
+
+	/**
+	 * ID
+	 */
+	@Id
+	@Pattern(regexp = "[1-9]+", message = "{Pattern.Product.productId.validation}")
 	@ProductID
+	@Column(name = "product_id")
 	private String productId;
-	//@Size(min = 4, max = 50, message = "{Size.Product.name.validation}")
+
+	/**
+	 * product nameS
+	 */
+	// @Size(min = 4, max = 50, message = "{Size.Product.name.validation}")
 	private String name;
-	//@Min(value = 0, message = "Min.Product.unitPrice.validation}")
-	//@Digits(integer = 8, fraction = 2, message = "{Digits.Product.unitPrice.validation}")
-	//@NotNull(message = "{NotNull.Product.unitPrice.validation}")
+	/**
+	 * unitPrice
+	 */
+	@Min(value = 0, message = "Min.Product.unitPrice.validation}")
+	@Digits(integer = 8, fraction = 2, message = "{Digits.Product.unitPrice.validation}")
+	@NotNull(message = "{NotNull.Product.unitPrice.validation}")
+	@Column(name = "unit_price")
 	private BigDecimal unitPrice;
+	/**
+	 * description
+	 */
 	private String description;
+	/**
+	 * company
+	 */
 	private String manufacturer;
+	/**
+	 * category
+	 */
 	private String category;
+	/**
+	 * units in stock
+	 */
+	@Column(name = "units_in_stock")
 	private long unitsInStock;
+	/**
+	 * units in order
+	 */
+	@Column(name = "units_in_order")
 	private long unitsInOrder;
+	/**
+	 * effective
+	 */
 	private boolean discontinued;
+	/**
+	 * condition
+	 */
+	@Transient
 	private String condition;
+	
+	@Transient
 	@JsonIgnore
 	private MultipartFile productImage;
 

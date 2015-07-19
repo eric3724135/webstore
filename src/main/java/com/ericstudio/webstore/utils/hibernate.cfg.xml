@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- JDBC驅動程式 -->
+		<property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
+		<!-- JDBC URL -->
+		<property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/webstore</property>
+		<!-- USER -->
+		<property name="hibernate.connection.username">root</property>
+		<!-- PW -->
+		<property name="hibernate.connection.password">root</property>
+		<!-- SQL方言，這邊設定的是MySQL -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- 顯示實際操作資料庫時的SQL -->
+		<property name="show_sql">true</property>
+		<!-- 將顯示的SQL排版，方便觀看 -->
+		<property name="format_sql">true</property>
+
+		<!-- 物件與資料庫表格映射文件 -->
+		<mapping class="com.ericstudio.webstore.domain.Product" />
+
+
+
+	</session-factory>
+</hibernate-configuration>
